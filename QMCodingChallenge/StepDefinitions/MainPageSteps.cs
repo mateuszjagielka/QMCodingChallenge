@@ -25,16 +25,23 @@ namespace QMCodingChallenge.StepDefinitions
             await _mainPage.HoverOverMenu(menu);
         }
 
+        [When(@"I select (.*) language")]
+        public async Task WhenISelectLanguage(string language)
+        {
+            await _mainPage.SelectLanguage(language);
+        }
+
+
         [When(@"I click (.*) button")]
         public async Task WhenIClickAButton(string button)
         {
-            throw new PendingStepException();
+            await _mainPage.ClickButton(button);
         }
 
         [Then(@"QualityMinds main page is opened in (.*)")]
         public async Task ThenQualityMindsMainPageIsOpenedInGerman(string language)
         {
-            throw new PendingStepException();
+            await _mainPage.CheckIfPageLanguageIsCorrect(language);
         }
     }
 }

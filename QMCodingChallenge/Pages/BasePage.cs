@@ -9,6 +9,9 @@ namespace QMCodingChallenge.Pages
         public abstract IPage Page { get; set; }
 
         public abstract IBrowser Browser { get; }
+        public ILocatorAssertions Expect(ILocator locator) =>Assertions.Expect(locator);
+        public IPageAssertions Expect(IPage page) => Assertions.Expect(page);
+        public IAPIResponseAssertions Expect(IAPIResponse response) => Assertions.Expect(response);
 
         public async Task NavigateAsync()
         {
@@ -23,6 +26,11 @@ namespace QMCodingChallenge.Pages
             {
                 Path = "screenshots/TestScreenshot.jpg"
             });
+        }
+
+        public async Task ClickButton(string button)
+        {
+            throw new NotImplementedException();
         }
     }
 }
