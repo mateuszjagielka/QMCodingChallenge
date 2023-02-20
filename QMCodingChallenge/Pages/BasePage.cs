@@ -9,15 +9,17 @@ namespace QMCodingChallenge.Pages
         public abstract IPage Page { get; set; }
 
         public abstract IBrowser Browser { get; }
-        public ILocatorAssertions Expect(ILocator locator) =>Assertions.Expect(locator);
+        public ILocatorAssertions Expect(ILocator locator) => Assertions.Expect(locator);
         public IPageAssertions Expect(IPage page) => Assertions.Expect(page);
         public IAPIResponseAssertions Expect(IAPIResponse response) => Assertions.Expect(response);
+        
 
         public async Task NavigateAsync()
         {
             Page = await Browser.NewPageAsync();
             await Page.GotoAsync(PagePath);
             await Page.WaitForURLAsync(PagePath);
+            await TakeScreenshot();
         }
 
         public async Task TakeScreenshot()

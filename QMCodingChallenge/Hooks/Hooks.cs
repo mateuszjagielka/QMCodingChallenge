@@ -15,10 +15,12 @@ namespace QMCodingChallenge.Hooks
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions {
                 Headless = false,
             });
-            var pageObject = new MainPage(browser);
+            var mainPage = new MainPage(browser);
+            var jobOffersPage = new JobOffersPage(browser);
             container.RegisterInstanceAs(playwright);
             container.RegisterInstanceAs(browser);
-            container.RegisterInstanceAs(pageObject);
+            container.RegisterInstanceAs(mainPage);
+            container.RegisterInstanceAs(jobOffersPage);
         }
 
         [AfterScenario]

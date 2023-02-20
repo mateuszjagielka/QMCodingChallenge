@@ -43,5 +43,12 @@ namespace QMCodingChallenge.StepDefinitions
         {
             await _mainPage.CheckIfPageLanguageIsCorrect(language);
         }
+
+        [Then(@"current URL is (.*)")]
+        public async Task ThenCurrentUrlIs(string url)
+        {
+            await _mainPage.CurrentUrlIs(url);
+        }
+
     }
 }
