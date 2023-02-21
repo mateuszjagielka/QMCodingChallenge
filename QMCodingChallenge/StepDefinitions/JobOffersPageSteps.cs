@@ -18,5 +18,12 @@ namespace QMCodingChallenge.StepDefinitions
             await _jobOffersPage.NavigateAsync();
             await _jobOffersPage.CloseCookieBanner();
         }
+
+        [Then(@"at least (.*) job offer is available")]
+        public async Task ThenAtLeastOneJobOfferIsAvailable(int count)
+        {
+            await _jobOffersPage.CheckIfPageContainsAtLeastOneJobOffer(count);
+        }
+
     }
 }

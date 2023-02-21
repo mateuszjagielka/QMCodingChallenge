@@ -5,7 +5,7 @@ using TechTalk.SpecFlow;
 namespace QMCodingChallenge.Pages
 {
     public class JobOffersPage : MainPage
-    {   
+    {
         public override string PagePath => "https://qualityminds.com/de/karriere/stellenangebote";
         public JobOffersPage(IBrowser browser) : base(browser)
         {
@@ -16,38 +16,23 @@ namespace QMCodingChallenge.Pages
 
         #region Elements and constants
 
-        // Cookie banner
-        public ILocator abc => Page.Locator("");
+        // Job offers
+        public ILocator jobOfferElements => Page.Locator(_webElements.GetValue("Job Offer Elements"));
+        public ILocator firstJobOfferElement => Page.Locator(_webElements.GetValue("First Job Offer Element"));
+        public ILocator firstJobOfferViewMoreButton => Page.Locator(_webElements.GetValue("First Job Offer View More Button"));
+
+
 
 
         #endregion
 
         #region Actions
 
-        public async Task CloseCookieBannerdsada()
+        public async Task CheckIfPageContainsAtLeastOneJobOffer(int count)
         {
-            await acceptCookiesButton.ClickAsync();
-            await Expect(cookieBanner).ToBeHiddenAsync();
-            await TakeScreenshot();
-        }
-        public async Task CheckIfPageLanguageIsCorrect4234(string language)
-        {
-            string? obtainedCareerButtonText = await careerMenu.TextContentAsync();
-            if (obtainedCareerButtonText != null) {
-                switch (obtainedCareerButtonText) {
-                    case careerMenuButtonTextEn:
-                        language.Should().Be("English");
-                        break;
-                    case careerMenuButtonTextDe:
-                        language.Should().Be("German");
-                        break;
-                    case careerMenuButtonTextPl:
-                        language.Should().Be("Polish");
-                        break;
-                    default:
-                        break;
-                }
-            }
+            int jobOffersCount = await jobOfferElements.CountAsync();
+            jobOffersCount.Should().BeGreaterThanOrEqualTo(count);
+            //await Expect(jobOfferElements).Not.ToHaveCountAsync(0);
         }
 
         #endregion

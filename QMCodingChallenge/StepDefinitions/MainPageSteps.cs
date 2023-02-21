@@ -7,10 +7,7 @@ namespace QMCodingChallenge.StepDefinitions
     {
         private readonly MainPage _mainPage;
 
-        public MainPageSteps(MainPage mainPage)
-        {
-            _mainPage = mainPage;
-        }
+        public MainPageSteps(MainPage mainPage) => _mainPage = mainPage;
 
         [Given(@"QualityMinds main page is opened")]
         public async Task GivenQualityMindsMainPageIsOpened()
@@ -25,13 +22,6 @@ namespace QMCodingChallenge.StepDefinitions
             await _mainPage.HoverOverMenu(menu);
         }
 
-        [When(@"I select (.*) language")]
-        public async Task WhenISelectLanguage(string language)
-        {
-            await _mainPage.SelectLanguage(language);
-        }
-
-
         [When(@"I click (.*) button")]
         public async Task WhenIClickAButton(string button)
         {
@@ -41,7 +31,7 @@ namespace QMCodingChallenge.StepDefinitions
         [Then(@"QualityMinds main page is opened in (.*)")]
         public async Task ThenQualityMindsMainPageIsOpenedInGerman(string language)
         {
-            await _mainPage.CheckIfPageLanguageIsCorrect(language);
+            await _mainPage.IsPageLanguageCorrect(language);
         }
 
         [Then(@"current URL is (.*)")]
@@ -50,5 +40,10 @@ namespace QMCodingChallenge.StepDefinitions
             await _mainPage.CurrentUrlIs(url);
         }
 
+        [Then(@"(Main|Automatisiertes Testen|Test Automation|Events|Stellenangebote) page is opened")]
+        public async Task ThenAutomatisiertesTestenPageIsOpened(string page)
+        {
+            await _mainPage.IsSelectedPageOpened(page);
+        }
     }
 }

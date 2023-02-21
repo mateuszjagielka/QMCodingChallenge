@@ -1,11 +1,12 @@
 ﻿using Microsoft.Playwright;
+using QMCodingChallenge.Support;
 using TechTalk.SpecFlow;
 
 
 namespace QMCodingChallenge.Pages
 {
     public class MainPage : BasePage
-    {   
+    {
         public override string PagePath => "https://qualityminds.com/";
         public MainPage(IBrowser browser) => Browser = browser;
         public override IPage Page { get; set; }
@@ -14,25 +15,29 @@ namespace QMCodingChallenge.Pages
         #region Elements and constants
 
         // Cookie banner
-        public ILocator acceptCookiesButton => Page.Locator("//button[contains(@class,'cmplz-accept')]");
-        public ILocator cookieBanner => Page.Locator("//div[contains(@class,'cookiebanner')]");
+        public ILocator acceptCookiesButton => Page.Locator(_webElements.GetValue("Accept Cookies"));
+        public ILocator cookieBanner => Page.Locator(_webElements.GetValue("Cookie Banner"));
 
         // Services Menu
-        public ILocator servicesMenu => Page.Locator("//ul[@id='top-menu']/li[contains(@class,'mega-menu')]");
-        public ILocator servicesMenuHovered => Page.Locator("//ul[@id='top-menu']/li[contains(@class,'mega-menu') and contains(@class,'et-hover')]");
+        public ILocator servicesMenu => Page.Locator(_webElements.GetValue("Services Menu"));
+        public ILocator servicesMenuHovered => Page.Locator(_webElements.GetValue("Services Menu Hovered"));
+        public ILocator portfolioMenu => Page.Locator(_webElements.GetValue("Portfolio Menu"));
+        public ILocator portfolioMenuHovered => Page.Locator(_webElements.GetValue("Portfolio Menu Hovered"));
+
+        // About Us Menu
+        public ILocator aboutUsMenu => Page.Locator(_webElements.GetValue("About Us Menu"));
+        public ILocator aboutUsMenuHovered => Page.Locator(_webElements.GetValue("About Us Menu Hovered"));
 
         // Career Menu
-        public ILocator careerMenu => Page.Locator("(//ul[@id='top-menu']/li/a)[5]");
-        public const string careerMenuButtonTextEn = "CAREER";
-        public const string careerMenuButtonTextDe = "KARRIERE";
-        public const string careerMenuButtonTextPl = "KARIERA";
+        public ILocator careerMenu => Page.Locator(_webElements.GetValue("Career Menu"));
 
         // Language Menu
-        public ILocator languageMenu => Page.Locator("//ul[@id='top-menu']/li[contains(@class,'current-language')]");
-        public ILocator languageMenuHovered => Page.Locator("//ul[@id='top-menu']/li[contains(@class,'current-language') and contains(@class,'et-hover')]");
-        public ILocator languageEnglishButton => Page.Locator("//ul[@id='top-menu']/li/ul/li[contains(@class,'item-en')]");
-        public ILocator languageGermanButton => Page.Locator("//ul[@id='top-menu']/li/ul/li[contains(@class,'item-de')]");
-        public ILocator languagePolishButton => Page.Locator("//ul[@id='top-menu']/li/ul/li[contains(@class,'item-pl')]");
+        public ILocator languageMenu => Page.Locator(_webElements.GetValue("Language Menu"));
+        public ILocator languageMenuHovered => Page.Locator(_webElements.GetValue("Language Menu Hovered"));
+        public ILocator languageEnglishButton => Page.Locator(_webElements.GetValue("English Flag"));
+        public ILocator languageGermanButton => Page.Locator(_webElements.GetValue("German Flag"));
+        public ILocator languagePolishButton => Page.Locator(_webElements.GetValue("Polish Flag"));
+
 
 
         #endregion
@@ -46,53 +51,45 @@ namespace QMCodingChallenge.Pages
         }
         public async Task HoverOverMenu(string menu)
         {
-            switch (menu) {
+            switch (menu)
+            {
+                case "Portfolio":
+                case "Services":
+                    await servicesMenu.HoverAsync();
+                    break;
                 case "Language":
                     await languageMenu.HoverAsync();
-                    await languageMenuHovered.WaitForAsync();
                     break;
-                case "Portfolio": case "Services":
-                    await servicesMenu.HoverAsync();
-                    await servicesMenuHovered.WaitForAsync();
+                case "About Us":
+                    await aboutUsMenu.HoverAsync();
                     break;
                 default:
-                    Console.WriteLine($"Menu '{menu}' not recognized");
-                    break;
+                    throw new Exception($"Menu '{menu}' not recognized");
             }
-            await TakeScreenshot();
         }
-        public async Task SelectLanguage(string language)
+        public async Task IsSubmenuDisplayedAfterHover(string menu)
         {
-            switch (language) {
-                case "English":
-                    await languageEnglishButton.ClickAsync();
-                    await CheckIfPageLanguageIsCorrect(language);
-                    break;
-                case "German":
-                    await languageGermanButton.ClickAsync();
-                    await CheckIfPageLanguageIsCorrect(language);
-                    break;
-                case "Polish":
-                    await languagePolishButton.ClickAsync();
-                    await CheckIfPageLanguageIsCorrect(language);
+            switch (menu)
+            {
+                case "About Us":
+                    await aboutUsMenuHovered.WaitForAsync();
                     break;
                 default:
-                    Console.WriteLine($"Language '{language}' not recognized");
-                    break;
+                    throw new Exception($"Menu '{menu}' not recognized");
             }
-            await TakeScreenshot();
         }
-        public async Task CheckIfPageLanguageIsCorrect(string language)
+        public async Task IsPageLanguageCorrect(string language)
         {
-            switch (language) {
+            switch (language)
+            {
                 case "English":
-                    await Expect(careerMenu).ToContainTextAsync(careerMenuButtonTextEn);
+                    await Expect(servicesMenu).ToContainTextAsync(_webElements.GetValue("Services Menu Text En"));
                     break;
                 case "German":
-                    await Expect(careerMenu).ToContainTextAsync(careerMenuButtonTextDe);
+                    await Expect(servicesMenu).ToContainTextAsync(_webElements.GetValue("Services Menu Text De"));
                     break;
                 case "Polish":
-                    await Expect(careerMenu).ToContainTextAsync(careerMenuButtonTextPl);
+                    await Expect(servicesMenu).ToContainTextAsync(_webElements.GetValue("Services Menu Text Pl"));
                     break;
                 default:
                     throw new Exception($"Language '{language}' not recognized");
@@ -102,9 +99,12 @@ namespace QMCodingChallenge.Pages
         {
             await Page.WaitForURLAsync(url);
         }
+        public async Task IsSelectedPageOpened(string page)
+        {
+            page += " Page URL";   
+            await Expect(Page).ToHaveURLAsync(_webElements.GetValue(page));
+        }
 
         #endregion
-        public Task FillInSearchField(string subject) => Page.FillAsync("body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.RNNXgb > div > div.a4bIc > input", subject);
-
     }
 }
