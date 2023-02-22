@@ -65,17 +65,16 @@ namespace QMCodingChallenge.Support
 
             #region Test Automation Page
 
-
-            //_webLocators.Add("", "");
-            //_webLocators.Add("", "");
+            _webElements.Add("Kontaktiere Uns", "text=KONTAKTIERE UNS");
+            //_webElements.Add("", "");
 
             #endregion
 
             #region Events Page
-            /*            _webLocators.Add("", "");
-                        _webLocators.Add("", "");
-                        _webLocators.Add("", "");
-                        _webLocators.Add("", "");*/
+            /*            _webElements.Add("", "");
+                        _webElements.Add("", "");
+                        _webElements.Add("", "");
+                        _webElements.Add("", "");*/
 
             #endregion
 
@@ -83,15 +82,15 @@ namespace QMCodingChallenge.Support
             _webElements.Add("Job Offer Elements", "//div[contains(@class,'job-listing-item')]");
             _webElements.Add("First Job Offer Element", "(//div[contains(@class,'job-listing-item')])[1]");
             _webElements.Add("First Job Offer View More Button", "(//div[contains(@class,'job-listing-item')])[1]//span[contains(@class,'job-more')]");
-            //_webLocators.Add("", "");
+            //_webElements.Add("", "");
 
-        #endregion
+            #endregion
 
-        #region Empty Page
+            #region Empty Page
 
-        #endregion
-    }
-    public string GetValue(string key)
+            #endregion
+        }
+        public string GetValue(string key)
     {
         string searchedElement;
         try

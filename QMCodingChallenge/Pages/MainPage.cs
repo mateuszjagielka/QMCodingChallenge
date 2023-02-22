@@ -101,7 +101,7 @@ namespace QMCodingChallenge.Pages
         }
         public async Task IsSelectedPageOpened(string page)
         {
-            page += " Page URL";   
+            page += " Page URL";
             await Expect(Page).ToHaveURLAsync(_webElements.GetValue(page));
         }
 

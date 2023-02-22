@@ -23,10 +23,17 @@ namespace QMCodingChallenge.Pages
             await Page.WaitForURLAsync(PagePath);
             await TakeScreenshot();
         }
-        public async Task NavigateTostring (string url)
+        public async Task NavigateToURL(string url)
         {
             await Page.GotoAsync(url);
             await Page.WaitForURLAsync(url);
+            await TakeScreenshot();
+        }
+        public async Task NavigateToPage(string page)
+        {
+            page += " Page URL";            
+            await Page.GotoAsync(_webElements.GetValue(page));
+            await Page.WaitForURLAsync(_webElements.GetValue(page));
             await TakeScreenshot();
         }
 

@@ -17,10 +17,12 @@ namespace QMCodingChallenge.Hooks
             });
             var mainPage = new MainPage(browser);
             var jobOffersPage = new JobOffersPage(browser);
+            var testAutomationPage = new TestAutomationPage(browser);
             container.RegisterInstanceAs(playwright);
             container.RegisterInstanceAs(browser);
             container.RegisterInstanceAs(mainPage);
             container.RegisterInstanceAs(jobOffersPage);
+            container.RegisterInstanceAs(testAutomationPage);
         }
 
         [AfterScenario]

@@ -45,5 +45,12 @@ namespace QMCodingChallenge.StepDefinitions
         {
             await _mainPage.IsSelectedPageOpened(page);
         }
+
+        [When(@"I navigate to (Main|Automatisiertes Testen|Test Automation|Events|Stellenangebote) Page")]
+        public async Task WhenINavigateToMainPage(string page)
+        {
+            await _mainPage.NavigateToPage(page);
+        }
+
     }
 }

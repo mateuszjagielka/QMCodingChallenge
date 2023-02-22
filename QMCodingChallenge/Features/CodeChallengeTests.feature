@@ -10,7 +10,8 @@ Scenario: Test case 1
 	When I hover over Portfolio menu
 	And I click Automatisiertes Testen button
 	Then Automatisiertes Testen page is opened
-
+	#And button Kontaktiere Uns links to the email address: testing@qualityminds.de
+	#When I navigate to Main Page
 
 Scenario: Test case 3
 	Given QualityMinds job offers page is opened
